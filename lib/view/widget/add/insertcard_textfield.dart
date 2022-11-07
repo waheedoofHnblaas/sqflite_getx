@@ -35,7 +35,7 @@ class InsertCardTextField extends StatelessWidget {
             print('$name : ${textController.text}');
           },
           validator: (val) {
-           return validInput(textController.text, 3, 100, name);
+           return validInput(textController.text, 3,name=='Desc'?500: 30, name);
           },
           textFieldController: textController,
         ),

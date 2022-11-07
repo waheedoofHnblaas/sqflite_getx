@@ -1,28 +1,33 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_sqflite_project/controller/home_controllers/getimages_controller.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:flutter_sqflite_project/core/class/statusrequest.dart';
+import 'package:flutter_sqflite_project/view/widget/home/homeAppNoteCard.dart';
+import 'package:flutter_sqflite_project/view/widget/home/sub_desc_text.dart';
+import 'package:flutter_sqflite_project/view/widget/search/appsearchwidget.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  HomeProcessControllerImp controllerProcessImp =
+      Get.put(HomeProcessControllerImp());
 
   @override
   Widget build(BuildContext context) {
-    HomeNotesControllerImp controllerImp = Get.put(HomeNotesControllerImp());
-    HomeProcessControllerImp controllerProcessImp =
-        Get.put(HomeProcessControllerImp());
     return Scaffold(
+      backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          controllerImp.toAdd();
+          controllerProcessImp.toAdd();
         },
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: const Text('Notes'),
+
+
+        title: AppSearchWidget(),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -34,34 +39,21 @@ class HomePage extends StatelessWidget {
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            }else if(controller.notesList.isEmpty){
-              return const Center(child: Text('No Data'),);
+            } else if (controller.notesList.isEmpty) {
+              return const Center(
+                child: Text('No Data'),
+              );
             } else {
-              return Center(
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 child: ListView.builder(
                   itemCount: controller.notesList.length,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () async {
-                        await controller
-                            .deleteNote(controller.notesList[index].id!);
-                      },
-                      child: ListTile(
-                        title: Text(
-                          controller.notesList[index].name!,
-                        ),
-                        trailing: Text(
-                          controller.notesList[index].id!.toString(),
-                        ),
-                        leading: SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: Image.file(
-                                File(controller.notesList[index].image!))),
-                        subtitle: Text(
-                          controller.notesList[index].desc!,
-                        ),
-                      ),
+                    return Column(
+                      children: [
+                        HomeAppNoteCard(controller: controller, index: index),
+                        const Divider()
+                      ],
                     );
                   },
                 ),

@@ -7,12 +7,13 @@ import 'package:flutter_sqflite_project/view/widget/app_button.dart';
 import 'package:get/get.dart';
 
 class AddNotePage extends StatelessWidget {
-  const AddNotePage({Key? key}) : super(key: key);
+   AddNotePage({Key? key}) : super(key: key);
 
+  HomeProcessControllerImp controllerImp = Get.find();
   @override
   Widget build(BuildContext context) {
-    HomeProcessControllerImp controllerImp = Get.find();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Add Note'),
         actions: [

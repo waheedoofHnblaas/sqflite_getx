@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sqflite_project/controller/home_controllers/getimages_controller.dart';
 import 'package:flutter_sqflite_project/core/class/statusrequest.dart';
 import 'package:flutter_sqflite_project/core/constant/approutes.dart';
 import 'package:flutter_sqflite_project/core/function/handlingdata.dart';
 import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/data/datasource/local/sql_db.dart';
 import 'package:flutter_sqflite_project/data/model/note_model.dart';
+import 'package:flutter_sqflite_project/view/widget/appsnackbar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,8 +13,14 @@ abstract class HomeProcessController extends GetxController {
   Future<void> chooseImage();
 
   Future<int> addNote(String name, String image, String desc, String type);
+
   Future<List<NoteModel>> getNotes();
+
   Future<int> deleteNote(int id);
+
+  void toAdd();
+
+  void toNoteData(int noteIndex);
 }
 
 class HomeProcessControllerImp extends HomeProcessController {
@@ -54,31 +60,14 @@ class HomeProcessControllerImp extends HomeProcessController {
           'notesList length = ${notesList.length}',
         );
       } else {
-        Get.defaultDialog(
-          title: 'Warning',
-          middleText: 'no data available',
-        );
-        statusRequest = StatusRequest.failure;
+        AppSnackBar(title: 'no data available');
+
+        statusRequest = StatusRequest.success;
       }
     }
-    Get.showSnackbar(
-      const GetSnackBar(
-        messageText: Center(
-            child: Text(
-              'done update',
-              style: TextStyle(color: Colors.greenAccent),
-            )),
-        duration: Duration(
-          seconds: 2,
-        ),
-      ),
-    );
+    AppSnackBar(title: 'done update');
     update();
     return notesList;
-  }
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -98,9 +87,10 @@ class HomeProcessControllerImp extends HomeProcessController {
       print('==========addNote success i = $i ==========');
 
       if (i >= 0) {
-        await  getNotes();
-
         Get.offAllNamed(AppRoute.home);
+
+        // statusRequest = StatusRequest.success;
+        // update();
       } else {}
       return i;
     } else {
@@ -128,10 +118,28 @@ class HomeProcessControllerImp extends HomeProcessController {
     update();
     int i = await sqlDB.deleteData('DELETE FROM Note WHERE id = $id');
     if (i == 1) {
-      await getNotes();
-      statusRequest = StatusRequest.success;
+      Get.offAllNamed(AppRoute.home);
     }
     update();
     return 0;
+  }
+
+  @override
+  void toAdd() {
+    Get.toNamed(AppRoute.addPage);
+  }
+
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    super.onClose();
+  }
+
+  @override
+  void toNoteData(int noteIndex) {
+    Get.toNamed(
+      AppRoute.noteData,
+      arguments: {NoteModel: notesList[noteIndex]},
+    );
   }
 }

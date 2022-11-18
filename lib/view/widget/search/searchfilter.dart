@@ -12,40 +12,69 @@ class SearchFilter extends StatelessWidget {
     return GetBuilder<HomeProcessControllerImp>(builder: (controller) {
       List filterNames = controller.notesList
           .where(
-            (element) => element.name!.toLowerCase().trim().contains(
-                  query.toLowerCase().trim(),
-                ),
+            (element) =>
+                (element.name!.toLowerCase().trim().contains(
+                      query.toLowerCase().trim(),
+                    )) ||
+                (element.desc!.toLowerCase().trim().contains(
+                      query.toLowerCase().trim(),
+                    )) ||
+                (element.type!.toLowerCase().trim().contains(
+                      query.toLowerCase().trim(),
+                    )) ||
+                (element.image!.toLowerCase().trim().contains(
+                      query.toLowerCase().trim(),
+                    )),
           )
           .toList();
 
       return SizedBox(
         height: double.maxFinite,
-        child: ListView.builder(
-          itemCount: filterNames.length,
-          itemBuilder: (context, index) => InkWell(
-            onTap: () {
-              query != ''
-                  ? controller.toNoteData(index)
-                  : controller.toNoteData(index);
-            },
-            child: ListTile(
-              title: query != ''
-                  ? Text(
-                      filterNames[index].name.toString(),
-                    )
-                  : Text(
-                      controller.notesList[index].name.toString(),
+        child: filterNames.isEmpty
+            ? Center(
+                child: Text(
+                'No Notes',
+                style: TextStyle(color: Get.theme.primaryColor),
+              ))
+            : ListView.builder(
+                itemCount: filterNames.length,
+                itemBuilder: (context, index) => Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        query != ''
+                            ? controller.toNoteData(index)
+                            : controller.toNoteData(index);
+                      },
+                      child: ListTile(
+                        title: query != ''
+                            ? Text(
+                                filterNames[index].name.toString(),
+                                style: TextStyle(color: Get.theme.primaryColor),
+                              )
+                            : Text(
+                                controller.notesList[index].name.toString(),
+                                style: TextStyle(color: Get.theme.primaryColor),
+                              ),
+                        trailing: query != ''
+                            ? Text(
+                                '${filterNames[index].type} ',
+                                style: TextStyle(color: Get.theme.primaryColor),
+                              )
+                            : Text(
+                                '${controller.notesList[index].type} ',
+                                style: TextStyle(color: Get.theme.primaryColor),
+                              ),
+                      ),
                     ),
-              trailing: query != ''
-                  ? Text(
-                      '${filterNames[index].type} ',
-                    )
-                  : Text(
-                      '${controller.notesList[index].type} ',
+                    Divider(
+                      color: Get.theme.primaryColor.withOpacity(0.4),
+                      indent: 11,
+                      endIndent: 11,
                     ),
-            ),
-          ),
-        ),
+                  ],
+                ),
+              ),
       );
     });
   }

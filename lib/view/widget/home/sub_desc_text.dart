@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SubText extends StatelessWidget {
   SubText({
@@ -20,6 +21,7 @@ class SubText extends StatelessWidget {
             )
           : text,
       textAlign: TextAlign.center,
+      style: TextStyle(color: Get.theme.primaryColor),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:flutter_sqflite_project/core/class/statusrequest.dart';
+import 'package:flutter_sqflite_project/view/widget/home/addFloatingButton.dart';
 import 'package:flutter_sqflite_project/view/widget/home/homeAppNoteCard.dart';
 import 'package:flutter_sqflite_project/view/widget/home/sub_desc_text.dart';
 import 'package:flutter_sqflite_project/view/widget/search/appsearchwidget.dart';
@@ -17,16 +18,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          controllerProcessImp.toAdd();
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton:
+          AddFloatingButton(controllerProcessImp: controllerProcessImp),
       appBar: AppBar(
-
-
         title: AppSearchWidget(),
       ),
       body: RefreshIndicator(

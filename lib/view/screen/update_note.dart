@@ -2,33 +2,30 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
+import 'package:flutter_sqflite_project/controller/home_controllers/update_controller.dart';
 import 'package:flutter_sqflite_project/core/class/handelingview.dart';
 import 'package:flutter_sqflite_project/view/widget/add/apptextfield.dart';
 import 'package:flutter_sqflite_project/view/widget/add/insertcard_textfield.dart';
 import 'package:flutter_sqflite_project/view/widget/app_button.dart';
+import 'package:flutter_sqflite_project/view/widget/note_update/commitUpdateButton.dart';
 import 'package:get/get.dart';
 
-import '../widget/add/commitAddButton.dart';
+class UpdateNotePage extends StatelessWidget {
+  UpdateNotePage({Key? key}) : super(key: key);
 
-class AddNotePage extends StatelessWidget {
-  AddNotePage({Key? key}) : super(key: key);
-
-  HomeProcessControllerImp controllerImp = Get.find();
+  UpdateController controllerImp = Get.put(UpdateController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Note'),
+        title: const Text('Update Note'),
       ),
-      body: GetBuilder<HomeProcessControllerImp>(builder: (controller) {
+      body: GetBuilder<UpdateController>(builder: (controller) {
         return HandelingView(
             statusRequest: controller.statusRequest!,
             widget: Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 30,
-                vertical: 10,
-              ),
+              margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: SingleChildScrollView(
                 child: Form(
                   key: controller.formState,
@@ -53,9 +50,9 @@ class AddNotePage extends StatelessWidget {
                       Row(
                         children: [
                           AppButton(
-                            text: 'Add Image',
+                            text: 'Update Image',
                             onPressed: () async {
-                              await controllerImp.chooseImage();
+                              await controllerImp.changeImage();
                             },
                           ),
                           const SizedBox(
@@ -67,7 +64,7 @@ class AddNotePage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      CommitAddButton(controllerImp: controllerImp),
+                      CommitUpdateButton(controllerImp: controllerImp)
                     ],
                   ),
                 ),
@@ -76,27 +73,19 @@ class AddNotePage extends StatelessWidget {
       }),
     );
   }
-
-  Container FoundImageCard() {
-    return Container(
-      child: controllerImp.imagePath.isEmpty
-          ?  Text(
-              'Img ?',
-              style: TextStyle(fontSize: 21,color: Get.theme.backgroundColor),
-            )
-          : SizedBox(
-              width: 50,
-              height: 50,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.file(
-                  width: 50,
-                  height: 80,
-                  fit: BoxFit.fill,
-                  File(controllerImp.imagePath),
-                ),
-              ),
-            ),
+  Widget FoundImageCard() {
+    return      SizedBox(
+      width: 50,
+      height: 50,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: Image.file(
+          width: 50,
+          height: 80,
+          fit: BoxFit.fill,
+          File(controllerImp.imagePath!),
+        ),
+      ),
     );
   }
 }

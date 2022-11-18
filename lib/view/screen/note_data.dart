@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/notedata_controller.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:flutter_sqflite_project/data/model/note_model.dart';
+import 'package:flutter_sqflite_project/view/widget/note_data/editeRowCard.dart';
 import 'package:get/get.dart';
 
 class NoteDataPage extends StatelessWidget {
@@ -17,7 +19,6 @@ class NoteDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(controllerImp.noteModel.name!),
       ),
@@ -30,7 +31,7 @@ class NoteDataPage extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10.0),
                   child: Image.file(
-                    height: Get.height / 1.6,
+                    height: Get.height / 1.8,
                     fit: BoxFit.fill,
                     File(controllerImp.noteModel.image!),
                   ),
@@ -40,6 +41,7 @@ class NoteDataPage extends StatelessWidget {
                   child: Text(
                     controllerImp.noteModel.desc!,
                     textAlign: TextAlign.center,
+                    style: TextStyle(color: Get.theme.primaryColor),
                   ),
                 ),
                 const SizedBox(
@@ -47,50 +49,9 @@ class NoteDataPage extends StatelessWidget {
                 )
               ],
             ),
-            Positioned(
-              bottom: 10,
-              left: 10,
-              right: 10,
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent.withOpacity(0.8),
-                  borderRadius: const BorderRadius.all(Radius.circular(18)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-
-                      },
-                      icon: const Icon(
-                        Icons.favorite_border,
-                      ),
-                      color: Get.theme.backgroundColor,
-                    ),
-                    IconButton(
-                      onPressed: () {
-
-                      },
-                      icon: const Icon(
-                        Icons.edit,
-                      ),
-                      color: Get.theme.backgroundColor,
-                    ),
-                    IconButton(
-                      onPressed: () async {
-                        await homeProcessControllerImp
-                            .deleteNote(controllerImp.noteModel.id!);
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                      ),
-                      color: Get.theme.backgroundColor,
-                    ),
-                  ],
-                ),
-              ),
+            EditeRowCard(
+              homeProcessControllerImp: homeProcessControllerImp,
+              controllerImp: controllerImp,
             )
           ],
         ),

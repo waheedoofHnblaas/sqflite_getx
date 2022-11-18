@@ -1,5 +1,6 @@
 class NoteModel {
   int? id;
+  int? fav;
   String? name;
   String? image;
   String? desc;
@@ -9,6 +10,7 @@ class NoteModel {
 
   NoteModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    fav = json['fav'];
     name = json['name'];
     image = json['image'];
     desc = json['desc'];
@@ -18,6 +20,7 @@ class NoteModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = id;
+    data['fav'] = fav;
     data['name'] = name;
     data['image'] = image;
     data['desc'] = desc;

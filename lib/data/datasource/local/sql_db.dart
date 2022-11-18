@@ -24,7 +24,7 @@ class SqlDB extends DataOps {
 
   Future<Database?> initDb() async {
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'notes3.db');
+    String path = join(databasePath, 'notes33.db');
     Database database = await openDatabase(
       path,
       onCreate: _onCreate,
@@ -41,7 +41,7 @@ class SqlDB extends DataOps {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute(
-        'CREATE TABLE Note (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, desc TEXT, type TEXT, image TEXT)');
+        'CREATE TABLE Note (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, desc TEXT, type TEXT, fav INTEGER, image TEXT)');
     print('onCreate CREATE TABLE times ==============');
   }
 

@@ -5,6 +5,7 @@ import 'package:flutter_sqflite_project/core/function/handlingdata.dart';
 import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/data/datasource/local/sql_db.dart';
 import 'package:flutter_sqflite_project/data/model/note_model.dart';
+import 'package:flutter_sqflite_project/view/screen/note_data.dart';
 import 'package:flutter_sqflite_project/view/widget/appsnackbar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,19 +19,24 @@ abstract class HomeProcessController extends GetxController {
 
   Future<int> deleteNote(int id);
 
+  Future<int> favNote(
+    int id,
+    int fav,
+  );
+
   void toAdd();
 
   void toNoteData(int noteIndex);
 }
 
 class HomeProcessControllerImp extends HomeProcessController {
-  MyServices myServices = Get.find();
-  StatusRequest? statusRequest = StatusRequest.success;
-  SqlDB sqlDB = SqlDB();
   late GlobalKey<FormState> formState = GlobalKey<FormState>();
   TextEditingController name = TextEditingController();
   TextEditingController desc = TextEditingController();
   TextEditingController type = TextEditingController();
+  MyServices myServices = Get.find();
+  StatusRequest? statusRequest = StatusRequest.success;
+  SqlDB sqlDB = SqlDB();
   String imagePath = '';
   final ImagePicker _picker = ImagePicker();
   List<NoteModel> notesList = [];
@@ -82,7 +88,7 @@ class HomeProcessControllerImp extends HomeProcessController {
       statusRequest = StatusRequest.loading;
       update();
       int i = await sqlDB.insertData(
-          'INSERT INTO Note(name,image,desc,type) VALUES("$name","$image","$desc","$type")');
+          'INSERT INTO Note(name,image,desc,type,fav) VALUES("$name","$image","$desc","$type",0)');
 
       print('==========addNote success i = $i ==========');
 
@@ -125,14 +131,33 @@ class HomeProcessControllerImp extends HomeProcessController {
   }
 
   @override
-  void toAdd() {
-    Get.toNamed(AppRoute.addPage);
+  Future<int> favNote(
+    int id,
+    int fav,
+  ) async {
+    fav == 0 ? fav = 1 : fav = 0;
+    print('========== update =========');
+    statusRequest = StatusRequest.loading;
+    update();
+    int i =
+        await sqlDB.updateData('UPDATE Note SET fav = "$fav" WHERE id = "$id"');
+
+    print('==========updateNote success i = $i ==========');
+
+    if (i >= 0) {
+      await getNotes();
+      statusRequest = StatusRequest.success;
+      update();
+
+      // statusRequest = StatusRequest.success;
+      // update();
+    } else {}
+    return i;
   }
 
   @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
+  void toAdd() {
+    Get.toNamed(AppRoute.addPage);
   }
 
   @override
@@ -140,6 +165,7 @@ class HomeProcessControllerImp extends HomeProcessController {
     Get.toNamed(
       AppRoute.noteData,
       arguments: {NoteModel: notesList[noteIndex]},
+
     );
   }
 }

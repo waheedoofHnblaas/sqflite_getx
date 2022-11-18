@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sqflite_project/controller/home_controllers/theme_controller.dart';
+import 'package:flutter_sqflite_project/core/constant/themes.dart';
 import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/routes.dart';
 import 'package:get/get.dart';
@@ -15,27 +17,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sql',
-      theme: ThemeData(
-        backgroundColor: Colors.white,
-        primaryColor: Colors.blueAccent,
-        fontFamily: 'Cairo',
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-            fontSize: 21,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          elevation: 0,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-        ),
-        primarySwatch: Colors.blue,
-      ),
-      getPages: routes,
+    ThemeController themeController = Get.put(ThemeController());
+    return GetBuilder<ThemeController>(
+      builder: (controller) {
+
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Sql',
+
+          themeMode: controller.getThemeModeMain(),
+          darkTheme: darkTheme(),
+          theme: lightTheme(),
+          getPages: routes,
+        );
+      },
     );
   }
 }
+
+

@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppButton extends StatelessWidget {
-  AppButton({Key? key, required this.onPressed}) : super(key: key);
+  AppButton({Key? key, required this.onPressed, required this.text}) : super(key: key);
 
   void Function()? onPressed;
-
+  String text;
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      color: Get.theme.primaryColor,
-      height: 50,
-      minWidth: Get.width - 33,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(14),
+    return Expanded(
+      child: MaterialButton(
+        color: Get.theme.backgroundColor,
+        height: 50,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(14),
+          ),
         ),
-      ),
-      onPressed: onPressed,
-      child:  Text(
-        'Add Note',
-        style: TextStyle(
-          color: Get.theme.backgroundColor,
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Get.theme.scaffoldBackgroundColor,
+          ),
         ),
       ),
     );

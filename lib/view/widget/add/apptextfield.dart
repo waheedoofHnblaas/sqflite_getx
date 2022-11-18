@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class AppTextField extends StatelessWidget {
   AppTextField({
@@ -25,41 +25,47 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      textAlign: TextAlign.center,
-      controller: textFieldController,
-      validator: validator,
-      keyboardType: inputType,
-      obscureText: obscureText,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      decoration: InputDecoration(
-        hintTextDirection: TextDirection.ltr,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(),
-          borderRadius: BorderRadius.circular(18),
-        ),
-        suffixIcon: IconButton(
-          onPressed: onTap,
-          icon: Icon(
-            iconData,
-          ),
-        ),
-        label: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(
-            type,
-
-          ),
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        hintText: type,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(18)),
+        color: Get.theme.primaryColor.withOpacity(0.1),
       ),
-      onChanged: onChanged,
+      child: TextFormField(
+        textAlign: TextAlign.center,
+        controller: textFieldController,
+        validator: validator,
+        keyboardType: inputType,
+        obscureText: obscureText,style: TextStyle(color: Get.theme.primaryColor),
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        decoration: InputDecoration(
+          hintTextDirection: TextDirection.ltr,
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Get.theme.backgroundColor),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          suffixIcon: IconButton(
+            onPressed: onTap,
+            icon: Icon(
+              color: Get.theme.primaryColor.withOpacity(0.2),
+              iconData,
+            ),
+          ),
+          label: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              type,style: TextStyle(color: Get.theme.primaryColor),
+            ),
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: type,
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        onChanged: onChanged,
+      ),
     );
   }
 }

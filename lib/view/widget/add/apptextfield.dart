@@ -11,10 +11,12 @@ class AppTextField extends StatelessWidget {
     required this.validator,
     this.obscureText = false,
     this.onTap,
+    this.line = 1,
     required this.textFieldController,
   }) : super(key: key);
 
   late String type;
+  late int line;
   late bool obscureText;
   late IconData iconData;
   late TextInputType inputType;
@@ -31,11 +33,13 @@ class AppTextField extends StatelessWidget {
         color: Get.theme.primaryColor.withOpacity(0.1),
       ),
       child: TextFormField(
+        maxLines: line,
         textAlign: TextAlign.center,
         controller: textFieldController,
         validator: validator,
         keyboardType: inputType,
-        obscureText: obscureText,style: TextStyle(color: Get.theme.primaryColor),
+        obscureText: obscureText,
+        style: TextStyle(color: Get.theme.primaryColor),
         autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
           hintTextDirection: TextDirection.ltr,
@@ -53,7 +57,8 @@ class AppTextField extends StatelessWidget {
           label: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              type,style: TextStyle(color: Get.theme.primaryColor),
+              type,
+              style: TextStyle(color: Get.theme.primaryColor),
             ),
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,

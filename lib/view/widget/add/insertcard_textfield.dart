@@ -37,14 +37,16 @@ class InsertCardTextField extends StatelessWidget {
           onChanged: (val) {
             print('$name : ${textController.text}');
           },
+          line: name == 'Desc' ? 3 : 1,
           validator: (val) {
             return validInput(
                 textController.text, 3, name == 'Desc' ? 1000 : 30, name);
           },
           textFieldController: textController,
         ),
-         Divider(
-          height: 40,color: Get.theme.primaryColor,
+        Divider(
+          height: 40,
+          color: Get.theme.primaryColor,
         ),
       ],
     );

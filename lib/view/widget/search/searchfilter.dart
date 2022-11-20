@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:get/get.dart';
@@ -43,10 +45,20 @@ class SearchFilter extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         query != ''
-                            ? controller.toNoteData(index)
-                            : controller.toNoteData(index);
+                            ? controller.toNoteData(filterNames[index])
+                            : controller
+                                .toNoteData(controller.notesList[index]);
                       },
                       child: ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(33.0),
+                          child: Image.file(
+                            width: 44,
+                            height: 44,
+                            fit: BoxFit.fill,
+                            File(controller.notesList[index].image!),
+                          ),
+                        ),
                         title: query != ''
                             ? Text(
                                 filterNames[index].name.toString(),
@@ -58,11 +70,11 @@ class SearchFilter extends StatelessWidget {
                               ),
                         trailing: query != ''
                             ? Text(
-                                '${filterNames[index].type} ',
+                                filterNames[index].type,
                                 style: TextStyle(color: Get.theme.primaryColor),
                               )
                             : Text(
-                                '${controller.notesList[index].type} ',
+                                controller.notesList[index].type!,
                                 style: TextStyle(color: Get.theme.primaryColor),
                               ),
                       ),

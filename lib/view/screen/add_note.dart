@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:flutter_sqflite_project/core/class/handelingview.dart';
-import 'package:flutter_sqflite_project/view/widget/add/apptextfield.dart';
 import 'package:flutter_sqflite_project/view/widget/add/insertcard_textfield.dart';
+import 'package:flutter_sqflite_project/view/widget/add/typeChooserWidget.dart';
 import 'package:flutter_sqflite_project/view/widget/app_button.dart';
 import 'package:get/get.dart';
 
 import '../widget/add/commitAddButton.dart';
 
+// ignore: must_be_immutable
 class AddNotePage extends StatelessWidget {
   AddNotePage({Key? key}) : super(key: key);
 
@@ -45,6 +46,7 @@ class AddNotePage extends StatelessWidget {
                         desc: "Inter Note's Description",
                         textController: controllerImp.desc,
                       ),
+                      TypeChooserWidget(controllerImp: controllerImp),
                       InsertCardTextField(
                         name: 'Type',
                         desc: "Inter Note's Type",
@@ -80,9 +82,9 @@ class AddNotePage extends StatelessWidget {
   Container FoundImageCard() {
     return Container(
       child: controllerImp.imagePath.isEmpty
-          ?  Text(
+          ? Text(
               'Img ?',
-              style: TextStyle(fontSize: 21,color: Get.theme.backgroundColor),
+              style: TextStyle(fontSize: 21, color: Get.theme.backgroundColor),
             )
           : SizedBox(
               width: 50,

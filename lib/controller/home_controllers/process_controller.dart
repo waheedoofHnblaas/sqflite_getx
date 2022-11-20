@@ -18,6 +18,8 @@ abstract class HomeProcessController extends GetxController {
 
   Future<List<NoteModel>> getNotes();
 
+  Future<List<String>> getTypes();
+
   Future<List<NoteModel>> getFavNotes();
 
   Future<int> deleteNote(int id);
@@ -29,7 +31,7 @@ abstract class HomeProcessController extends GetxController {
 
   void toAdd();
 
-  void toNoteData(int noteIndex);
+  void toNoteData(NoteModel note);
 }
 
 class HomeProcessControllerImp extends HomeProcessController {
@@ -51,6 +53,7 @@ class HomeProcessControllerImp extends HomeProcessController {
   @override
   Future<void> onInit() async {
     await getNotes();
+    await getTypes();
     scrollController.addListener(() {
       if (ScrollDirection.forward ==
           scrollController.position.userScrollDirection) {
@@ -64,13 +67,46 @@ class HomeProcessControllerImp extends HomeProcessController {
     super.onInit();
   }
 
+  List<String> notesType = [];
+
+  @override
+  Future<List<String>> getTypes() async {
+    print('======getNotes====');
+    statusRequest = StatusRequest.loading;
+    notesType.clear();
+    update();
+    var response =
+        await sqlDB.readData('SELECT DISTINCT  "type" FROM "Note" DESC');
+    statusRequest = handlingData(response);
+    print('=====$statusRequest=====');
+    if (statusRequest == StatusRequest.success) {
+      if (response.isNotEmpty) {
+        List notes = response;
+        for (var element in notes) {
+          notesType.add(element['type']);
+          print(element['type']);
+        }
+        print(
+          'notesType length = ${notesType.length}',
+        );
+      } else {
+        AppSnackBar(title: 'no type available');
+
+        statusRequest = StatusRequest.success;
+      }
+    }
+    AppSnackBar(title: 'types update');
+    update();
+    return notesType;
+  }
+
   @override
   Future<List<NoteModel>> getNotes() async {
     print('======getNotes====');
     statusRequest = StatusRequest.loading;
     notesList.clear();
     update();
-    var response = await sqlDB.readData('SELECT * FROM "Note"');
+    var response = await sqlDB.readData('SELECT * FROM "Note" ORDER BY "id" DESC');
     statusRequest = handlingData(response);
     print('=====$statusRequest=====');
     if (statusRequest == StatusRequest.success) {
@@ -179,10 +215,10 @@ class HomeProcessControllerImp extends HomeProcessController {
   }
 
   @override
-  void toNoteData(int noteIndex) {
+  void toNoteData(NoteModel note) {
     Get.toNamed(
       AppRoute.noteData,
-      arguments: {NoteModel: notesList[noteIndex]},
+      arguments: {NoteModel: note},
     );
   }
 

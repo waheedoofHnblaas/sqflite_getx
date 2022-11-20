@@ -10,7 +10,7 @@ class DataSearch extends SearchDelegate {
         onPressed: () {
           query != '' ? query = '' : Get.back();
         },
-        icon: Icon(
+        icon: const Icon(
           Icons.close,
         ),
       )

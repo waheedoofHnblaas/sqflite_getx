@@ -1,4 +1,6 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sqflite_project/core/constant/themes.dart';
 import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/main.dart';
 import 'package:get/get.dart';
@@ -21,15 +23,26 @@ class ThemeController extends GetxController {
     }
   }
 
-  changeThemeMode() {
+  getThemeData() {
     //l or d
     String theme = getThemeMode();
     if (theme == 'l') {
-      myServices.sharedPreferences.setString('themeMode', 'd');
-
+      return lightTheme();
     } else {
-      myServices.sharedPreferences.setString('themeMode', 'l');
+      return darkTheme();
     }
-    update();
+  }
+
+  changeThemeMode(context) async {
+    //l or d
+    String theme = getThemeMode();
+    if (theme == 'l') {
+      await myServices.sharedPreferences.setString('themeMode', 'd');
+      ThemeSwitcher.of(context)
+          .changeTheme(theme: darkTheme());
+    } else {
+      await myServices.sharedPreferences.setString('themeMode', 'l');
+      ThemeSwitcher.of(context).changeTheme(theme: lightTheme(), isReversed: true);
+    }
   }
 }

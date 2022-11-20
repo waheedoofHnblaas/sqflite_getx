@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_sqflite_project/core/class/statusrequest.dart';
 import 'package:flutter_sqflite_project/core/constant/approutes.dart';
 import 'package:flutter_sqflite_project/core/function/handlingdata.dart';
@@ -16,6 +17,8 @@ abstract class HomeProcessController extends GetxController {
   Future<int> addNote(String name, String image, String desc, String type);
 
   Future<List<NoteModel>> getNotes();
+
+  Future<List<NoteModel>> getFavNotes();
 
   Future<int> deleteNote(int id);
 
@@ -41,9 +44,23 @@ class HomeProcessControllerImp extends HomeProcessController {
   final ImagePicker _picker = ImagePicker();
   List<NoteModel> notesList = [];
 
+  ScrollController scrollController = ScrollController();
+
+  bool reverse = false;
+
   @override
   Future<void> onInit() async {
     await getNotes();
+    scrollController.addListener(() {
+      if (ScrollDirection.forward ==
+          scrollController.position.userScrollDirection) {
+        reverse = false;
+        update();
+      } else {
+        reverse = true;
+        update();
+      }
+    });
     super.onInit();
   }
 
@@ -72,6 +89,7 @@ class HomeProcessControllerImp extends HomeProcessController {
       }
     }
     AppSnackBar(title: 'done update');
+    favList = false;
     update();
     return notesList;
   }
@@ -165,7 +183,39 @@ class HomeProcessControllerImp extends HomeProcessController {
     Get.toNamed(
       AppRoute.noteData,
       arguments: {NoteModel: notesList[noteIndex]},
-
     );
+  }
+
+  bool favList = false;
+
+  @override
+  Future<List<NoteModel>> getFavNotes() async {
+    print('======getNotes====');
+    statusRequest = StatusRequest.loading;
+    notesList.clear();
+    update();
+    var response =
+        await sqlDB.readData('SELECT * FROM "Note" WHERE fav = "1" ');
+    statusRequest = handlingData(response);
+    print('=====$statusRequest=====');
+    if (statusRequest == StatusRequest.success) {
+      if (response.isNotEmpty) {
+        List notes = response;
+        for (var element in notes) {
+          notesList.add(NoteModel.fromJson(element));
+        }
+        print(
+          'notesList length = ${notesList.length}',
+        );
+      } else {
+        AppSnackBar(title: 'no data available');
+
+        statusRequest = StatusRequest.success;
+      }
+    }
+    AppSnackBar(title: 'done update');
+    favList = true;
+    update();
+    return notesList;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,16 +13,18 @@ class SubText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      text.length > l
-          ? text.replaceRange(
-              l,
-              l + (text.length - l),
-              ' ...... ',
-            )
-          : text,
-      textAlign: TextAlign.center,
-      style: TextStyle(color: Get.theme.primaryColor),
+    return ThemeSwitcher(
+      builder:(context)=> Text(
+        text.length > l
+            ? text.replaceRange(
+                l,
+                l + (text.length - l),
+                ' ...... ',
+              )
+            : text,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: context.theme.primaryColor),
+      ),
     );
   }
 }

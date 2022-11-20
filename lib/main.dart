@@ -4,31 +4,35 @@ import 'package:flutter_sqflite_project/core/constant/themes.dart';
 import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/routes.dart';
 import 'package:get/get.dart';
-
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+  ThemeController themeController = Get.put(ThemeController());
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    ThemeController themeController = Get.put(ThemeController());
     return GetBuilder<ThemeController>(
       builder: (controller) {
 
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Sql',
+        return ThemeProvider(
+          duration: const Duration(milliseconds: 400),
+          initTheme: controller.getThemeData(),
+          builder: (p0, theme) =>  GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Sql',
 
-          themeMode: controller.getThemeModeMain(),
-          darkTheme: darkTheme(),
-          theme: lightTheme(),
-          getPages: routes,
+            themeMode: controller.getThemeModeMain(),
+            darkTheme: darkTheme(),
+            theme: theme,
+            getPages: routes,
+          ),
         );
       },
     );

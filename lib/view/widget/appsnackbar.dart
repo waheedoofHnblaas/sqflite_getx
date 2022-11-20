@@ -3,18 +3,19 @@ import 'package:get/get.dart';
 
 SnackbarController AppSnackBar({required String title}) {
   return Get.showSnackbar(
-    GetSnackBar(borderColor: Get.theme.primaryColor,
+    GetSnackBar(
+      borderColor: Get.theme.primaryColor,
       borderRadius: 12,
       margin: const EdgeInsets.symmetric(horizontal: 88),
       padding: const EdgeInsets.all(0),
       messageText: Container(
-        decoration:  BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: const BorderRadius.vertical(
             top: Radius.circular(12),
           ),
           color: Get.theme.scaffoldBackgroundColor,
         ),
-        height: 30,
+        height: 44,
         child: Center(
           child: Text(
             title,
@@ -26,7 +27,7 @@ SnackbarController AppSnackBar({required String title}) {
         ),
       ),
       duration: const Duration(
-        seconds: 1,
+        milliseconds: 600
       ),
     ),
   );

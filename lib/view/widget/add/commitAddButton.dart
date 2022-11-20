@@ -18,6 +18,7 @@ class CommitAddButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         FloatingActionButton(
+          elevation: 1,
           backgroundColor: Get.theme.scaffoldBackgroundColor,
           shape: CircleBorder(
               side: BorderSide(

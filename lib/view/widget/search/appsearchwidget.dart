@@ -1,5 +1,7 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/searchcontroller.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/theme_controller.dart';
 import 'package:flutter_sqflite_project/view/widget/search/datasearch.dart';
@@ -23,13 +25,15 @@ class AppSearchWidget extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
             ),
-            child: IconButton(
-              onPressed: () {
-                controller.changeThemeMode();
-                print(controller.getThemeMode());
-              },
-              icon: const Icon(
-                CupertinoIcons.sun_max,
+            child: ThemeSwitcher(
+              builder: (context) => IconButton(
+                onPressed: () {
+                  controller.changeThemeMode(context);
+                  print(controller.getThemeMode());
+                },
+                icon: const Icon(
+                  CupertinoIcons.sun_max,
+                ),
               ),
             ),
           ),
@@ -41,6 +45,36 @@ class AppSearchWidget extends StatelessWidget {
               title,
             ),
           ),
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: GetBuilder<HomeProcessControllerImp>(
+              builder: (homeController) {
+                return IconButton(
+                  onPressed: () {
+                    if (homeController.favList) {
+                      homeController.getNotes();
+                    } else {
+                      homeController.getFavNotes();
+                    }
+                  },
+                  icon: !homeController.favList
+                      ? const Icon(
+                          Icons.favorite_border_outlined,
+                        )
+                      : const Icon(
+                          Icons.favorite,
+                        ),
+                );
+              },
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 22,
         ),
         Expanded(
           child: Container(

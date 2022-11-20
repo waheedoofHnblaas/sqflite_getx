@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 ThemeData darkTheme() {
 
   return ThemeData(
-    scaffoldBackgroundColor: const Color(0xEF00001A),
+    scaffoldBackgroundColor: const Color(0xFF000017),
     backgroundColor: Colors.blueAccent,
     primaryColor: Colors.white,
     fontFamily: 'Cairo',

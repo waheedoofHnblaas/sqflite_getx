@@ -19,6 +19,12 @@ class UpdateNotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
         title: const Text('Update Note'),
       ),
       body: GetBuilder<UpdateController>(builder: (controller) {
@@ -80,6 +86,12 @@ class UpdateNotePage extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: Image.file(
+          errorBuilder: (context, error, stackTrace) => Image.asset(
+            width: 50,
+            height: 80,
+            fit: BoxFit.fill,
+            controllerImp.imagePath!,
+          ),
           width: 50,
           height: 80,
           fit: BoxFit.fill,

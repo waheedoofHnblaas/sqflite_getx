@@ -20,7 +20,24 @@ class NoteDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(controllerImp.noteModel.name!),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
+        title: ListTile(
+          contentPadding: const EdgeInsets.all(10),
+          title: Text(
+            controllerImp.noteModel.name!,
+            textAlign: TextAlign.center,
+          ),
+          subtitle: Text(
+            controllerImp.noteModel.type!,
+            style: const TextStyle(fontSize: 11),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -28,14 +45,7 @@ class NoteDataPage extends StatelessWidget {
           children: [
             ListView(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.file(
-                    height: Get.height / 1.8,
-                    fit: BoxFit.fill,
-                    File(controllerImp.noteModel.image!),
-                  ),
-                ),
+                ImageWidget(),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
@@ -55,6 +65,22 @@ class NoteDataPage extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  ClipRRect ImageWidget() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10.0),
+      child: Image.file(
+        errorBuilder: (context, error, stackTrace) => Image.asset(
+          height: Get.height / 1.8,
+          fit: BoxFit.fill,
+          controllerImp.noteModel.image!,
+        ),
+        height: Get.height / 1.8,
+        fit: BoxFit.fill,
+        File(controllerImp.noteModel.image!),
       ),
     );
   }

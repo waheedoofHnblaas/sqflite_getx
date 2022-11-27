@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter_sqflite_project/data/datasource/static/constantNotes.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -12,6 +13,7 @@ abstract class DataOps {
 
   Future<int> updateData(String sql);
 }
+
 class SqlDB extends DataOps {
   static Database? _db;
 
@@ -24,7 +26,7 @@ class SqlDB extends DataOps {
 
   Future<Database?> initDb() async {
     String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'notes33.db');
+    String path = join(databasePath, 'notes1111.db');
     Database database = await openDatabase(
       path,
       onCreate: _onCreate,
@@ -43,6 +45,14 @@ class SqlDB extends DataOps {
     await db.execute(
         'CREATE TABLE Note (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, desc TEXT, type TEXT, fav INTEGER, image TEXT)');
     print('onCreate CREATE TABLE times ==============');
+
+    await db.rawInsert(
+        'INSERT INTO Note(name,image,desc,type,fav) VALUES("${assetsNotes[0].name}","${assetsNotes[0].image}","${assetsNotes[0].desc}","${assetsNotes[0].type}",0)');
+    print('INSERT INTO Note ${assetsNotes[0].name} ==============');
+  await db.rawInsert(
+        'INSERT INTO Note(name,image,desc,type,fav) VALUES("${assetsNotes[1].name}","${assetsNotes[1].image}","${assetsNotes[1].desc}","${assetsNotes[1].type}",0)');
+  await db.rawInsert(
+        'INSERT INTO Note(name,image,desc,type,fav) VALUES("${assetsNotes[2].name}","${assetsNotes[2].image}","${assetsNotes[2].desc}","${assetsNotes[2].type}",0)');
   }
 
   @override
@@ -73,4 +83,3 @@ class SqlDB extends DataOps {
     return response;
   }
 }
-

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_project/controller/home_controllers/process_controller.dart';
+import 'package:flutter_sqflite_project/data/model/note_model.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable
@@ -12,7 +13,7 @@ class SearchFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeProcessControllerImp>(builder: (controller) {
-      List filterNames = controller.notesList
+      List<NoteModel> filterNames = controller.notesList
           .where(
             (element) =>
                 (element.name!.toLowerCase().trim().contains(
@@ -52,7 +53,25 @@ class SearchFilter extends StatelessWidget {
                       child: ListTile(
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(33.0),
-                          child: Image.file(
+                          child: query != ''
+                              ? Image.file(
+                            errorBuilder: (context, error, stackTrace) => Image.asset(
+                              width: 44,
+                              height: 44,
+                              fit: BoxFit.fill,
+                              filterNames[index].image!,
+                            ),
+                            width: 44,
+                            height: 44,
+                            fit: BoxFit.fill,
+                            File(filterNames[index].image!),
+                          ) :Image.file(
+                            errorBuilder: (context, error, stackTrace) => Image.asset(
+                              width: 44,
+                              height: 44,
+                              fit: BoxFit.fill,
+                              controller.notesList[index].image!,
+                            ),
                             width: 44,
                             height: 44,
                             fit: BoxFit.fill,
@@ -70,7 +89,7 @@ class SearchFilter extends StatelessWidget {
                               ),
                         trailing: query != ''
                             ? Text(
-                                filterNames[index].type,
+                                filterNames[index].type!,
                                 style: TextStyle(color: Get.theme.primaryColor),
                               )
                             : Text(

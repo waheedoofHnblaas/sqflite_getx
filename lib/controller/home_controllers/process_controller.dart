@@ -116,7 +116,7 @@ class HomeProcessControllerImp extends HomeProcessController {
           notesList.add(NoteModel.fromJson(element));
         }
         print(
-          'notesList length = ${notesList.length}',
+          'notesList length = ${notesList[0].image}',
         );
       } else {
         AppSnackBar(title: 'no data available');

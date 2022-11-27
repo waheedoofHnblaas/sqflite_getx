@@ -20,6 +20,12 @@ class AddNotePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+        ),
         title: const Text('Add Note'),
       ),
       body: GetBuilder<HomeProcessControllerImp>(builder: (controller) {

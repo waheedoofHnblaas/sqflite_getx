@@ -62,7 +62,18 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.11.0
+  flutter_native_splash: ^2.2.15
+flutter_native_splash:
+  color: "#ffffff"
+  image: "assets/images/sc4.png"
 
+flutter_icons:
+  image_path: "assets/images/logo.png"
+  adaptive_icon_foregroand : "assets/images/logo2.png"
+  adaptive_icon_background : "#ffffff"
+  android: true
+  ios: true
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -82,8 +93,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+   - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -31,10 +31,14 @@ class NoteDataPage extends StatelessWidget {
           title: Text(
             controllerImp.noteModel.name!,
             textAlign: TextAlign.center,
+            style: TextStyle(color: Get.theme.primaryColor),
           ),
           subtitle: Text(
             controllerImp.noteModel.type!,
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              color: Get.theme.primaryColor.withOpacity(0.8),
+            ),
             textAlign: TextAlign.center,
           ),
         ),
@@ -45,7 +49,19 @@ class NoteDataPage extends StatelessWidget {
           children: [
             ListView(
               children: [
-                ImageWidget(),
+                Stack(
+                  children: [
+                    Positioned(
+                      top: Get.height / 3,
+                      left: Get.width / 2.5,
+                      right: Get.width / 2.5,
+                      child: CircularProgressIndicator(),
+                    ),
+                    Center(
+                      child: ImageWidget(),
+                    ),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(

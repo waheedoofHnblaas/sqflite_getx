@@ -48,10 +48,6 @@ class HomeAppNoteCard extends StatelessWidget {
     );
   }
 
-
-
-
-
   ClipRRect ImageWidget() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8.0),
@@ -65,6 +61,8 @@ class HomeAppNoteCard extends StatelessWidget {
         width: 50,
         height: 80,
         fit: BoxFit.fill,
+        cacheHeight: 80,
+        cacheWidth: 50,
         File(controller.notesList[index].image!),
       ),
     );

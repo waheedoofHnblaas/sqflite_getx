@@ -5,14 +5,16 @@ import 'package:flutter_sqflite_project/core/services/services.dart';
 import 'package:flutter_sqflite_project/routes.dart';
 import 'package:get/get.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initServices();
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
+
   ThemeController themeController = Get.put(ThemeController());
 
   // This widget is the root of your application.
@@ -20,14 +22,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ThemeController>(
       builder: (controller) {
-
         return ThemeProvider(
           duration: const Duration(milliseconds: 400),
           initTheme: controller.getThemeData(),
-          builder: (p0, theme) =>  GetMaterialApp(
+          builder: (p0, theme) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Sql',
-
             themeMode: controller.getThemeModeMain(),
             darkTheme: darkTheme(),
             theme: theme,
@@ -38,5 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
